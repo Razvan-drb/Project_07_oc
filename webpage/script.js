@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const placeholderTexts = document.querySelectorAll('.placeholder');
 
     // Replace these URLs with your actual API endpoints
-    const moviesApiUrl = '/api/v1/titles/';
-    const genresApiUrl = '/api/v1/genres/';
+    const moviesApiUrl = 'http://localhost:8000/api/v1/titles/';
+    const genresApiUrl = 'http://localhost:8000/api/v1/genres/';
 
     // Function to fetch movie details and update HTML
     function fetchMovieDetails() {
@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data && data.results && data.results.length > 0) {
                     const movie = data.results[0]; // Assuming we want the first movie
                     const movieHtml = `
-                        <p>${movie.title}</p>
-                        <p>${movie.description}</p>
-                        <button onclick="watchNow('${movie.videoUrl}')">Watch Now</button>
+                        <p>${movie.title || 'No title available'}</p>
+                        <p>${movie.description || 'No description available'}</p>
+                        <button onclick="watchNow('${movie.videoUrl || '#'}')">Watch Now</button>
                     `;
                     movieDetailsContainer.innerHTML = movieHtml;
                 } else {
@@ -33,7 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to fetch genres and update HTML
     function fetchGenres() {
         fetch(genresApiUrl)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data && data.results) {
                     const genres = data.results;
@@ -56,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => {
-                console.error('Error fetching genres:', error);
+                console.error('Error fetching genres:', error.message);
                 placeholderTexts.forEach(placeholder => {
                     placeholder.textContent = 'Error loading genres.';
                 });
@@ -70,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to handle "Watch Now" button click
 function watchNow(url) {
-    if (url) {
+    if (url && url !== '#') {
         window.open(url, '_blank');
     } else {
         alert('No video URL available.');
