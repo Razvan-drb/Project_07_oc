@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <title>Layout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 300px;
+            margin: 0 auto;
+        }
+        .header, .best-movie, .category, .other-category {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .best-movie img {
+            width: 100%;
+        }
+        .category img {
+            width: 45%;
+            margin: 2%;
+        }
+        .category .title, .other-category .title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .placeholder {
+            width: 100%;
+            height: 100px;
+            background-color: #ddd;
+            text-align: center;
+            line-height: 100px;
+            font-size: 14px;
+        }
+        select {
+            width: 100%;
+            padding: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="avatar">
+                <!-- Placeholder for profile photo -->
+                <img src="avatar.png" alt="Profile" style="width:50px;">
+                <span>Anonymous</span>
+            </div>
+            <div class="search">
+                <!-- Placeholder for search bar -->
+                <input type="text" placeholder="Search...">
+                <button>Search</button>
+            </div>
+        </div>
+
+        <!-- Best Movie Section -->
+        <div class="best-movie">
+            <div class="title">Meilleur film</div>
+            <img src="movie-poster.png" alt="Best Movie">
+            <div class="details">
+                <!-- Placeholder for movie details -->
+                <p>The Big Lebowski</p>
+                <p>Description of the movie...</p>
+                <button>Watch Now</button>
+            </div>
+        </div>
+
+        <!-- Category 1 -->
+        <div class="category">
+            <div class="title">Mystery</div>
+            <div class="images">
+                <!-- Placeholder for category images -->
+                <img src="mystery1.png" alt="Mystery 1">
+                <img src="mystery2.png" alt="Mystery 2">
+                <img src="mystery3.png" alt="Mystery 3">
+                <img src="mystery4.png" alt="Mystery 4">
+                <img src="mystery5.png" alt="Mystery 5">
+            </div>
+        </div>
+
+        <!-- Category 2 -->
+        <div class="category">
+            <div class="title">Catégorie 2</div>
+            <div class="placeholder">Voir au-dessus</div>
+        </div>
+
+        <!-- Category 3 -->
+        <div class="category">
+            <div class="title">Catégorie 3</div>
+            <div class="placeholder">Voir au-dessus</div>
+        </div>
+
+        <!-- Other Category -->
+        <div class="other-category">
+            <div class="title">Autres</div>
+            <select>
+                <option>Film d'action</option>
+                <option>Comédie</option>
+                <option>Drame</option>
+                <option>Film de mystery</option>
+                <option>Film d'horreur</option>
+                <option>Science fiction</option>
+                <option>Télévision</option>
+            </select>
+            <div class="placeholder">Catégorie choisie dans le menu déroulant</div>
+        </div>
+
+        <!-- Other Category (Second Instance) -->
+        <div class="other-category">
+            <div class="title">Autres</div>
+            <select>
+                <option>Comédie</option>
+            </select>
+            <div class="placeholder">Voir au-dessus (catégorie choisie - Comédie)</div>
+        </div>
+    </div>
+</body>
+</html>
