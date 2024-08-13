@@ -100,17 +100,46 @@ body {
 }
 
 select {
+    width: 200px; /* Adjust width as needed */
+    height: 30px;
+    padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #ffffff; /* White background */
-    width: 100%;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    font-size: 16px;
+}
+.selected-category-movies {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns per row */
+    gap: 10px; /* Space between items */
+    margin-top: 20px; /* Space above the grid */
 }
 
 select option {
     padding: 5px;
     background-color: #ffffff; /* White background */
 }
+/* Style for the genre dropdown */
+.genre-select {
+    max-height: 300px; /* Limit the height */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Optional: Improve the scroll bar appearance */
+.genre-select::-webkit-scrollbar {
+    width: 8px;
+}
+
+.genre-select::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.genre-select::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
 
 /* Media Queries for Responsiveness */
 
