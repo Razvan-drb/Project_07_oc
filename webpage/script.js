@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const movieDetailsContainer = document.querySelector('.best-movie .details');
     const categorySelect = document.querySelectorAll('.other-category select');
     const placeholderTexts = document.querySelectorAll('.placeholder');
+    const mysteryCategoryContainer = document.querySelector('.category .images');
 
-    // Replace these URLs with your actual API endpoints
     const moviesApiUrl = 'http://localhost:8000/api/v1/titles/';
     const genresApiUrl = 'http://localhost:8000/api/v1/genres/';
 
@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (data && data.results && data.results.length > 0) {
                     const movie = data.results[0]; // Assuming we want the first movie
                     const movieHtml = `
-                        <p>${movie.title || 'No title available'}</p>
-                        <p>${movie.description || 'No description available'}</p>
-                        <button onclick="watchNow('${movie.videoUrl || '#'}')">Watch Now</button>
+                        <p>${movie.title}</p>
+                        <p>${movie.description}</p>
+                        <button onclick="watchNow('${movie.videoUrl}')">Watch Now</button>
                     `;
                     movieDetailsContainer.innerHTML = movieHtml;
                 } else {
@@ -68,14 +68,38 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Fetch movie details and genres on page load
+    // Function to fetch and display movies in the Mystery category
+    function fetchMysteryMovies() {
+        fetch(moviesApiUrl + '?genre=mystery')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.results) {
+                    mysteryCategoryContainer.innerHTML = ''; // Clear any existing content
+                    data.results.forEach(movie => {
+                        const movieImage = document.createElement('img');
+                        movieImage.src = movie.image_url; // Assuming the API returns an image URL
+                        movieImage.alt = movie.title;
+                        mysteryCategoryContainer.appendChild(movieImage);
+                    });
+                } else {
+                    mysteryCategoryContainer.innerHTML = '<p>No Mystery movies available.</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching Mystery movies:', error.message);
+                mysteryCategoryContainer.innerHTML = '<p>Error loading Mystery movies.</p>';
+            });
+    }
+
+    // Fetch movie details, genres, and Mystery movies on page load
     fetchMovieDetails();
     fetchGenres();
+    fetchMysteryMovies();
 });
 
 // Function to handle "Watch Now" button click
 function watchNow(url) {
-    if (url && url !== '#') {
+    if (url) {
         window.open(url, '_blank');
     } else {
         alert('No video URL available.');

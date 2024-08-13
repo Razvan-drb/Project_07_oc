@@ -76,6 +76,19 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+/* Style for the Mystery category images */
+.category .images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three images per row */
+    gap: 10px; /* Space between images */
+}
+
+.category .images img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ensures the image covers the space without distortion */
+}
+
 
 .placeholder {
     background-color: #ffffff; /* White background */

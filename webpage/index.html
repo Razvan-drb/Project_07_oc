@@ -21,8 +21,8 @@
             <div class="details">
                 <!-- Placeholder for movie details -->
                 <p>lorem ipsum dolor</p>
-                <p>Description of the movie...</p>
-                <button>Watch Now</button>
+                <p>Description ...</p>
+                <button>Détails</button>
             </div>
         </div>
 
@@ -30,12 +30,7 @@
         <div class="category">
             <div class="title">Mystery</div>
             <div class="images">
-                <!-- Placeholder for category images -->
-                <img src="mystery1.png" alt="Mystery 1">
-                <img src="mystery2.png" alt="Mystery 2">
-                <img src="mystery3.png" alt="Mystery 3">
-                <img src="mystery4.png" alt="Mystery 4">
-                <img src="mystery5.png" alt="Mystery 5">
+                <!-- Dynamic content will be inserted here -->
             </div>
         </div>
 
@@ -54,19 +49,21 @@
         <!-- Other Category -->
         <div class="other-category">
             <div class="title">Autres</div>
-            <select>
+            <select class="genre-select">
                 <!-- Options will be dynamically populated -->
             </select>
             <div class="placeholder">Catégorie choisie dans le menu déroulant</div>
+            <div class="selected-category-movies"></div> <!-- Container for selected category movies -->
         </div>
 
         <!-- Other Category (Second Instance) -->
         <div class="other-category">
             <div class="title">Autres</div>
-            <select>
+            <select class="genre-select">
                 <!-- Options will be dynamically populated -->
             </select>
             <div class="placeholder">Voir au-dessus (catégorie choisie - Comédie)</div>
+            <div class="selected-category-movies"></div> <!-- Container for selected category movies -->
         </div>
     </div>
 </body>
