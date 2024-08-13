@@ -5,7 +5,7 @@ __pycache__/
 .idea
 # C extensions
 *.so
-
+token.md
 # Distribution / packaging
 .Python
 build/
