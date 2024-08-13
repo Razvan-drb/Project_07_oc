@@ -10,26 +10,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to fetch movie details and update HTML
     function fetchMovieDetails() {
-        fetch(moviesApiUrl)
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.results && data.results.length > 0) {
-                    const movie = data.results[0]; // Assuming we want the first movie
-                    const movieHtml = `
-                        <p>${movie.title}</p>
-                        <p>${movie.description}</p>
-                        <button onclick="watchNow('${movie.videoUrl}')">Watch Now</button>
-                    `;
-                    movieDetailsContainer.innerHTML = movieHtml;
-                } else {
-                    movieDetailsContainer.innerHTML = '<p>No movie details available.</p>';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching movie details:', error);
-                movieDetailsContainer.innerHTML = '<p>Error loading movie details.</p>';
-            });
-    }
+    fetch(moviesApiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.results && data.results.length > 0) {
+                const movie = data.results[0]; // Assuming we want the first movie
+                const movieHtml = `
+                    <img src="${movie.image_url}" alt="${movie.title}" class="best-movie-poster">
+                    <p><strong>${movie.title}</strong></p>
+                    <p>${movie.description}</p>
+                    <button onclick="watchNow('${movie.videoUrl}')">Watch Now</button>
+                `;
+                movieDetailsContainer.innerHTML = movieHtml;
+            } else {
+                movieDetailsContainer.innerHTML = '<p>No movie details available.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching movie details:', error);
+            movieDetailsContainer.innerHTML = '<p>Error loading movie details.</p>';
+        });
+}
 
     // Global array to store all genres
     let genres = [];
@@ -141,7 +142,7 @@ function fetchMoviesByGenre(genreId, container) {
 
     // Function to fetch and display movies in the Mystery category
     function fetchMysteryMovies() {
-        fetch(moviesApiUrl + '?genre=mystery')
+        fetch(moviesApiUrl + '?genre=mystery&page_size=6')
             .then(response => response.json())
             .then(data => {
                 if (data && data.results) {
