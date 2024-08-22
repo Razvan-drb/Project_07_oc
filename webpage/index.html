@@ -14,15 +14,22 @@
             <img src="data/Group%201.png" alt="img">
         </div>
 
-        <!-- Best Movie Section -->
+         <!-- Best Movie Section -->
         <div class="best-movie">
             <div class="title">Meilleur film</div>
-            <img src="movie-poster.png" alt="Best Movie">
-            <div class="details">
-                <!-- Placeholder for movie details -->
-                <p>lorem ipsum dolor</p>
-                <p>Description ...</p>
-                <button>Détails</button>
+            <img id="best-movie-poster" src="movie-poster.png" alt="Best Movie">
+            <div id="best-movie-details" class="details">
+                <p id="movie-description">lorem ipsum dolor </p>
+                <p id="movie-long-description">Description ...</p>
+                <button id="details-button">Détails</button>
+            </div>
+        </div>
+
+        <!-- Popup Modal for Movie Details -->
+        <div id="movie-popup" class="movie-popup">
+            <div class="movie-popup-content">
+                <span class="close-button">&times;</span>
+                <div id="popup-movie-details"></div>
             </div>
         </div>
 

@@ -8,20 +8,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const moviesApiUrl = 'http://localhost:8000/api/v1/titles/';
     const genresApiUrl = 'http://localhost:8000/api/v1/genres/';
 
-    // Function to fetch movie details and update HTML
-    function fetchMovieDetails() {
+   // Function to fetch movie details and update HTML
+function fetchMovieDetails() {
     fetch(moviesApiUrl)
         .then(response => response.json())
         .then(data => {
             if (data && data.results && data.results.length > 0) {
-                const movie = data.results[0]; // Assuming we want the first movie
+                // Find the movie with the highest IMDb score
+                const bestMovie = data.results.reduce((max, movie) =>
+                    movie.imdb_score > max.imdb_score ? movie : max
+                );
+
+                // Log the movie details for debugging
+                console.log('Best Movie *****************************:', bestMovie);
+
+                // Correct the URL pattern to match Django's API pattern without a trailing slash
+                const detailUrl = `http://localhost:8000/api/v1/titles/${bestMovie.id}`;
+
+                // Log the constructed detail URL for debugging
+                console.log('Constructed Detail URL:', detailUrl);
+
+                // Construct the HTML for the best movie
                 const movieHtml = `
-                    <img src="${movie.image_url}" alt="${movie.title}" class="best-movie-poster">
-                    <p><strong>${movie.title}</strong></p>
-                    <p>${movie.description}</p>
-                    <button onclick="watchNow('${movie.videoUrl}')">Watch Now</button>
+                    <div class="movie-content">
+                        <img src="${bestMovie.image_url}" alt="${bestMovie.title}" class="best-movie-poster">
+                        <div class="movie-details">
+                            <p class="movie-title"><strong>${bestMovie.title}</strong></p>
+                            <p class="movie-description">${bestMovie.description || 'No description available.'}</p>
+                            <p class="movie-score">IMDb Score: ${bestMovie.imdb_score}</p>
+                            <button id="details-button">Details</button>
+                        </div>
+                    </div>
                 `;
                 movieDetailsContainer.innerHTML = movieHtml;
+
+                // Add event listener to the "Details" button to show popup
+                document.getElementById('details-button').addEventListener('click', () => {
+                    // Simplified popup content
+                    const popupHtml = `
+                        <h2>${bestMovie.title} (${bestMovie.year})</h2>
+                        <p><strong>Description:</strong> ${bestMovie.description || 'No description available.'}</p>
+                        <p><strong>Plot:</strong> ${bestMovie.long_description || 'No plot available.'}</p>
+                        <p><strong>IMDb Score:</strong> ${bestMovie.imdb_score}</p>
+                        <p><strong>Votes:</strong> ${bestMovie.votes || 'N/A'}</p>
+                        <p><strong>Directors:</strong> ${bestMovie.directors ? bestMovie.directors.join(', ') : 'N/A'}</p>
+                        <p><strong>Writers:</strong> ${bestMovie.writers ? bestMovie.writers.join(', ') : 'N/A'}</p>
+                        <p><strong>Actors:</strong> ${bestMovie.actors ? bestMovie.actors.join(', ') : 'N/A'}</p>
+                        <p><strong>Genres:</strong> ${bestMovie.genres ? bestMovie.genres.join(', ') : 'N/A'}</p>
+                        <p><strong>Languages:</strong> ${bestMovie.languages ? bestMovie.languages.join(', ') : 'N/A'}</p>
+                        <p><strong>Country:</strong> ${bestMovie.countries ? bestMovie.countries.join(', ') : 'N/A'}</p>
+                        <p><strong>Rating:</strong> ${bestMovie.rated || 'N/A'}</p>
+                    `;
+                    document.getElementById('popup-movie-details').innerHTML = popupHtml;
+                    document.getElementById('movie-popup').style.display = 'block';
+                });
+
             } else {
                 movieDetailsContainer.innerHTML = '<p>No movie details available.</p>';
             }
@@ -31,6 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
             movieDetailsContainer.innerHTML = '<p>Error loading movie details.</p>';
         });
 }
+
+// Close popup when the close button is clicked
+document.querySelector('.close-button').addEventListener('click', () => {
+    document.getElementById('movie-popup').style.display = 'none';
+});
+
+// Close popup when clicking outside the popup content
+window.addEventListener('click', (event) => {
+    if (event.target == document.getElementById('movie-popup')) {
+        document.getElementById('movie-popup').style.display = 'none';
+    }
+});
+
+
+
+
+
 
     // Global array to store all genres
     let genres = [];
@@ -83,8 +141,6 @@ function updateDropdowns(genres) {
 }
 
 
-
-
     // Function to fetch and display movies for a selected genre
 function fetchMoviesByGenre(genreId, container) {
     if (!genreId) {
@@ -133,11 +189,6 @@ function fetchMoviesByGenre(genreId, container) {
             container.innerHTML = '<p>Error loading movies.</p>';
         });
 }
-
-
-
-
-
 
 
     // Function to fetch and display movies in the Mystery category

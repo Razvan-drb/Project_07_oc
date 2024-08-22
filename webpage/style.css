@@ -32,6 +32,45 @@ body {
     display: block; /* Remove extra space below the image */
 }
 
+/* Popup container */
+.movie-popup {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Popup content */
+.movie-popup-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+/* Close button */
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .best-movie,
 .category,
 .other-category {
@@ -76,11 +115,13 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-/* Style for the Mystery category images */
+
+/* Style for the Category images */
 .category .images {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three images per row */
+    grid-template-columns: repeat(3, 1fr); /* Default to three images per row on larger screens */
     gap: 10px; /* Space between images */
+    justify-items: center; /* Center items horizontally */
 }
 
 .category .images img {
@@ -88,7 +129,6 @@ body {
     height: auto;
     object-fit: cover; /* Ensures the image covers the space without distortion */
 }
-
 
 .placeholder {
     background-color: #ffffff; /* White background */
@@ -109,17 +149,12 @@ select {
     color: #333;
     font-size: 16px;
 }
-.selected-category-movies {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three columns per row */
-    gap: 10px; /* Space between items */
-    margin-top: 20px; /* Space above the grid */
-}
 
 select option {
     padding: 5px;
     background-color: #ffffff; /* White background */
 }
+
 /* Style for the genre dropdown */
 .genre-select {
     max-height: 300px; /* Limit the height */
@@ -140,11 +175,19 @@ select option {
     background-color: #555;
 }
 
+/* Grid for selected category movies */
+.selected-category-movies {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns per row */
+    gap: 10px; /* Space between items */
+    margin-top: 20px; /* Space above the grid */
+    justify-items: center; /* Center items horizontally */
+}
 
 /* Media Queries for Responsiveness */
 
 /* Tablet (Portrait and Landscape) */
-@media (max-width: 768px) {
+@media (max-width: 810px) {
     .header,
     .best-movie,
     .category,
@@ -152,8 +195,16 @@ select option {
         width: 90%; /* Reduce width for tablets */
     }
 
+    .selected-category-movies {
+        grid-template-columns: repeat(2, 1fr); /* Two columns per row */
+        justify-items: center; /* Center items horizontally */
+    }
+
     .category img {
         width: 100%; /* Full width for images on tablets */
+    }
+    .category .images {
+        grid-template-columns: repeat(2, 1fr); /* Two images per row on tablets */
     }
 }
 
@@ -171,8 +222,19 @@ select option {
         padding: 10px; /* Reduce padding for small screens */
     }
 
+    .selected-category-movies {
+        grid-template-columns: 1fr; /* One column per row */
+        justify-items: center; /* Center items horizontally */
+    }
+
     .placeholder {
         padding: 20px; /* Reduce padding in placeholder */
         font-size: 16px; /* Adjust font size for readability */
     }
+
+    .category .images {
+        grid-template-columns: 1fr; /* One image per row on phones */
+    }
 }
+
+
