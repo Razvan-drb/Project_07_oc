@@ -1,34 +1,27 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     const movieDetailsContainer = document.querySelector('.best-movie .details');
-    const categorySelects = document.querySelectorAll('.other-category select'); // Fixed variable name
+    const categorySelects = document.querySelectorAll('.other-category select');
     const placeholderTexts = document.querySelectorAll('.placeholder');
     const mysteryCategoryContainer = document.querySelector('.category .images');
 
     const moviesApiUrl = 'http://localhost:8000/api/v1/titles/';
     const genresApiUrl = 'http://localhost:8000/api/v1/genres/';
 
-   // Function to fetch movie details and update HTML
+ // Function to fetch movie details and update HTML
 function fetchMovieDetails() {
     fetch(moviesApiUrl)
         .then(response => response.json())
         .then(data => {
             if (data && data.results && data.results.length > 0) {
-                // Find the movie with the highest IMDb score
                 const bestMovie = data.results.reduce((max, movie) =>
                     movie.imdb_score > max.imdb_score ? movie : max
                 );
 
-                // Log the movie details for debugging
-                console.log('Best Movie *****************************:', bestMovie);
+                console.log('API Response Data:', data);
+                console.log('Best Movie:', bestMovie);
 
-                // Correct the URL pattern to match Django's API pattern without a trailing slash
-                const detailUrl = `http://localhost:8000/api/v1/titles/${bestMovie.id}`;
-
-                // Log the constructed detail URL for debugging
-                console.log('Constructed Detail URL:', detailUrl);
-
-                // Construct the HTML for the best movie
+                // Generate the movie details HTML content
                 const movieHtml = `
                     <div class="movie-content">
                         <img src="${bestMovie.image_url}" alt="${bestMovie.title}" class="best-movie-poster">
@@ -36,31 +29,16 @@ function fetchMovieDetails() {
                             <p class="movie-title"><strong>${bestMovie.title}</strong></p>
                             <p class="movie-description">${bestMovie.description || 'No description available.'}</p>
                             <p class="movie-score">IMDb Score: ${bestMovie.imdb_score}</p>
-                            <button id="details-button">Details</button>
+                            <button id="details-button" data-url="${bestMovie.url}">Details</button>
                         </div>
                     </div>
                 `;
                 movieDetailsContainer.innerHTML = movieHtml;
 
-                // Add event listener to the "Details" button to show popup
+                // Add event listener to the "Details" button to open the popup
                 document.getElementById('details-button').addEventListener('click', () => {
-                    // Simplified popup content
-                    const popupHtml = `
-                        <h2>${bestMovie.title} (${bestMovie.year})</h2>
-                        <p><strong>Description:</strong> ${bestMovie.description || 'No description available.'}</p>
-                        <p><strong>Plot:</strong> ${bestMovie.long_description || 'No plot available.'}</p>
-                        <p><strong>IMDb Score:</strong> ${bestMovie.imdb_score}</p>
-                        <p><strong>Votes:</strong> ${bestMovie.votes || 'N/A'}</p>
-                        <p><strong>Directors:</strong> ${bestMovie.directors ? bestMovie.directors.join(', ') : 'N/A'}</p>
-                        <p><strong>Writers:</strong> ${bestMovie.writers ? bestMovie.writers.join(', ') : 'N/A'}</p>
-                        <p><strong>Actors:</strong> ${bestMovie.actors ? bestMovie.actors.join(', ') : 'N/A'}</p>
-                        <p><strong>Genres:</strong> ${bestMovie.genres ? bestMovie.genres.join(', ') : 'N/A'}</p>
-                        <p><strong>Languages:</strong> ${bestMovie.languages ? bestMovie.languages.join(', ') : 'N/A'}</p>
-                        <p><strong>Country:</strong> ${bestMovie.countries ? bestMovie.countries.join(', ') : 'N/A'}</p>
-                        <p><strong>Rating:</strong> ${bestMovie.rated || 'N/A'}</p>
-                    `;
-                    document.getElementById('popup-movie-details').innerHTML = popupHtml;
-                    document.getElementById('movie-popup').style.display = 'block';
+                    const movieDetailUrl = bestMovie.url; // Use the URL to fetch detailed data
+                    fetchMovieDetail(movieDetailUrl);
                 });
 
             } else {
@@ -70,6 +48,21 @@ function fetchMovieDetails() {
         .catch(error => {
             console.error('Error fetching movie details:', error);
             movieDetailsContainer.innerHTML = '<p>Error loading movie details.</p>';
+        });
+}
+
+// Function to fetch detailed movie information
+function fetchMovieDetail(movieDetailUrl) {
+    fetch(movieDetailUrl)
+        .then(response => response.json())
+        .then(movie => {
+            const popupHtml = getContent(movie);
+            document.getElementById('popup-movie-details').innerHTML = popupHtml;
+            document.getElementById('movie-popup').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error fetching detailed movie information:', error);
+            document.getElementById('popup-movie-details').innerHTML = '<p>Error loading movie details.</p>';
         });
 }
 
@@ -85,6 +78,32 @@ window.addEventListener('click', (event) => {
     }
 });
 
+// Function to create the content displayed in the modal
+function getContent(movie) {
+    const title = movie.title;
+    const year = movie.year;
+    const genres = movie.genres ? movie.genres.join(', ') : 'N/A';
+    const rating = movie.rated || 'N/A';
+    const duration = movie.duration ? `${movie.duration} minutes` : 'Unknown duration';
+    const imdbScore = movie.imdb_score ? `${movie.imdb_score}/10` : 'N/A';
+    const directors = movie.directors ? movie.directors.join(', ') : 'N/A';
+    const description = movie.long_description || movie.description || 'No description available.';
+    const actors = movie.actors ? movie.actors.join(', ') : 'N/A';
+    const imageUrl = movie.image_url;
+
+    return `
+        <div class="popup-content">
+            <img src="${imageUrl}" alt="${title}" class="popup-movie-poster">
+            <h2>${title}</h2>
+            <p>${year} - ${genres}</p>
+            <p>${rating} - ${duration}</p>
+            <p>IMDB score: ${imdbScore}</p>
+            <p><strong>Directed by:</strong><br>${directors}</p>
+            <p>${description}</p>
+            <p><strong>Starring:</strong><br>${actors}</p>
+        </div>
+    `;
+}
 
 
 

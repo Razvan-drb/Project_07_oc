@@ -31,10 +31,9 @@ body {
     height: auto; /* Maintain aspect ratio */
     display: block; /* Remove extra space below the image */
 }
-
 /* Popup container */
 .movie-popup {
-    display: none;
+    display: none; /* Hidden by default */
     position: fixed;
     z-index: 1;
     left: 0;
@@ -42,13 +41,13 @@ body {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
 }
 
 /* Popup content */
 .movie-popup-content {
     background-color: #fff;
-    margin: 15% auto;
+    margin: 10% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
@@ -70,6 +69,20 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
+
+#popup-movie-details {
+    text-align: left;
+}
+
+#popup-movie-details img {
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    max-width: 150px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+/*end popup*/
 
 .best-movie,
 .category,
