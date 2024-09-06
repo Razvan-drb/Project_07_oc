@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Layout</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script type="module" src="main.js"></script>
 </head>
 <body>
     <div class="container">
@@ -14,7 +14,7 @@
             <img src="data/Group%201.png" alt="img">
         </div>
 
-         <!-- Best Movie Section -->
+        <!-- Best Movie Section -->
         <div class="best-movie">
             <div class="title">Meilleur film</div>
             <img id="best-movie-poster" src="movie-poster.png" alt="Best Movie">
@@ -37,7 +37,15 @@
         <div class="category">
             <div class="title">Mystery</div>
             <div class="images">
-                <!-- Dynamic content will be inserted here -->
+                <!-- Example movie containers -->
+                <div class="movie-container">
+                    <img src="example-movie.jpg" alt="Example Movie">
+                    <div class="overlay">
+                        <p>Movie Title</p>
+                        <button class="details-button">Détails</button>
+                    </div>
+                </div>
+                <!-- Repeat movie-container for each movie -->
             </div>
         </div>
 

@@ -31,6 +31,7 @@ body {
     height: auto; /* Maintain aspect ratio */
     display: block; /* Remove extra space below the image */
 }
+
 /* Popup container */
 .movie-popup {
     display: none; /* Hidden by default */
@@ -82,8 +83,8 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
-/*end popup*/
 
+/* Best Movie Section */
 .best-movie,
 .category,
 .other-category {
@@ -120,16 +121,7 @@ body {
 
 .best-movie button:hover {
     background-color: #c9302c;
-}
-
-.category img {
-    width: 100%; /* Full width for responsive images */
-    margin: 1.5%;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Style for the Category images */
+}/* Style for the Category images */
 .category .images {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Default to three images per row on larger screens */
@@ -137,11 +129,60 @@ body {
     justify-items: center; /* Center items horizontally */
 }
 
-.category .images img {
+/* Container for each movie image */
+.movie-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Movie image */
+.movie-container img {
     width: 100%;
     height: auto;
-    object-fit: cover; /* Ensures the image covers the space without distortion */
+    object-fit: cover; /* Ensure the image covers the space without distortion */
+    border-radius: 5px;
 }
+
+/* Semi-transparent overlay */
+.overlay {
+    position: absolute; /* Position absolute within the container */
+    top: 50%; /* Start at 50% from the top */
+    left: 0; /* Align to the left */
+    width: 100%; /* Full width */
+    height: 50%; /* Cover 50% of the image */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    opacity: 1; /* Always visible */
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 5px; /* Optional: match border radius of image */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional: add shadow */
+    transform: translateY(-50%); /* Shift it up by 50% to vertically center */
+}
+
+/* Style for the Details button */
+.overlay .details-button {
+    background-color: #d9534f; /* Bootstrap red color */
+    color: #ffffff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px; /* Add spacing between text and button */
+}
+
+.overlay .details-button:hover {
+    background-color: #c9302c;
+}
+
+
+
 
 .placeholder {
     background-color: #ffffff; /* White background */
@@ -196,6 +237,8 @@ select option {
     margin-top: 20px; /* Space above the grid */
     justify-items: center; /* Center items horizontally */
 }
+
+
 
 /* Media Queries for Responsiveness */
 
