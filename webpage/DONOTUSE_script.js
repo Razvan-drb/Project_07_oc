@@ -3,10 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const categorySelects = document.querySelectorAll('.other-category select');
     const placeholderTexts = document.querySelectorAll('.placeholder');
     const mysteryCategoryContainer = document.querySelector('.category .images');
+    const crimeCategoryContainer = document.querySelector('.category .crime-images');
+    const warCategoryContainer = document.querySelector('.category .war-images');
 
     const moviesApiUrl = 'http://localhost:8000/api/v1/titles/';
     const genresApiUrl = 'http://localhost:8000/api/v1/genres/';
     let genres = [];
+
 
     // Fetch movie details and progressively display the best movie
     async function fetchMovieDetails() {
@@ -234,6 +237,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 mysteryCategoryContainer.innerHTML = '<p>Error loading Mystery movies.</p>';
             });
     }
+    console.log('================================')
+    function fetchCrimeMovies() {
+    fetch(moviesApiUrl + '?genre=crime&page_size=4')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched Crime movies data:', data.results); // Log fetched data
+            if (data && data.results) {
+                crimeCategoryContainer.innerHTML = ''; // Clear existing content
+                data.results.forEach(movie => {
+                    const movieImage = document.createElement('img');
+                    movieImage.src = movie.image_url;
+                    movieImage.alt = movie.title;
+                    console.log('Crime movie image URL:', movie.image_url); // Log image URL
+                    crimeCategoryContainer.appendChild(movieImage);
+                });
+            } else {
+                crimeCategoryContainer.innerHTML = '<p>No Crime movies available.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching Crime movies:', error.message);
+            crimeCategoryContainer.innerHTML = '<p>Error loading Crime movies.</p>';
+        });
+}
+
+function fetchWarMovies() {
+    fetch(moviesApiUrl + '?genre=war&page_size=8')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched War movies data:', data.results); // Log fetched data
+            if (data && data.results) {
+                warCategoryContainer.innerHTML = ''; // Clear existing content
+                data.results.forEach(movie => {
+                    const movieImage = document.createElement('img');
+                    movieImage.src = movie.image_url;
+                    movieImage.alt = movie.title;
+                    console.log('War movie image URL:', movie.image_url); // Log image URL
+                    warCategoryContainer.appendChild(movieImage);
+                });
+            } else {
+                warCategoryContainer.innerHTML = '<p>No War movies available.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching War movies:', error.message);
+            warCategoryContainer.innerHTML = '<p>Error loading War movies.</p>';
+        });
+}
+
+
+
+
 
     // Event listener for genre selection
     categorySelects.forEach((select, index) => {
@@ -248,4 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchMovieDetails();
     fetchGenres();
     fetchMysteryMovies();
+    fetchCrimeMovies();
+    fetchWarMovies();
+
 });

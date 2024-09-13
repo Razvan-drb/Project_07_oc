@@ -1,6 +1,9 @@
 import { genres } from './genres.js'; // Ensure genres is exported correctly from genres.js
 
 const movieDetailsContainer = document.querySelector('.best-movie .details');
+const crimeCategoryContainer = document.querySelector('.crime-images');
+const warCategoryContainer = document.querySelector('.war-images');
+
 const moviesApiUrl = 'http://localhost:8000/api/v1/titles/';
 
 async function fetchMovieDetails() {
@@ -147,6 +150,54 @@ function fetchMoviesByGenre(genreId, container) {
             container.innerHTML = '<p>Error loading movies.</p>';
         });
 }
+function fetchCrimeMovies() {
+    fetch(moviesApiUrl + '?genre=crime&page_size=4')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched Crime movies data:', data.results); // Log fetched data
+            if (data && data.results) {
+                crimeCategoryContainer.innerHTML = ''; // Clear existing content
+                data.results.forEach(movie => {
+                    const movieImage = document.createElement('img');
+                    movieImage.src = movie.image_url; // Ensure correct URL
+                    movieImage.alt = movie.title;
+                    console.log('Crime movie image URL:', movie.image_url); // Log image URL
+                    crimeCategoryContainer.appendChild(movieImage);
+                });
+            } else {
+                crimeCategoryContainer.innerHTML = '<p>No Crime movies available.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching Crime movies:', error.message);
+            crimeCategoryContainer.innerHTML = '<p>Error loading Crime movies.</p>';
+        });
+}
+
+function fetchWarMovies() {
+    fetch(moviesApiUrl + '?genre=war&page_size=8')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Fetched War movies data:', data.results); // Log fetched data
+            if (data && data.results) {
+                warCategoryContainer.innerHTML = ''; // Clear existing content
+                data.results.forEach(movie => {
+                    const movieImage = document.createElement('img');
+                    movieImage.src = movie.image_url; // Ensure correct URL
+                    movieImage.alt = movie.title;
+                    console.log('War movie image URL:', movie.image_url); // Log image URL
+                    warCategoryContainer.appendChild(movieImage);
+                });
+            } else {
+                warCategoryContainer.innerHTML = '<p>No War movies available.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching War movies:', error.message);
+            warCategoryContainer.innerHTML = '<p>Error loading War movies.</p>';
+        });
+}
+
 
 // Export functions
-export { fetchMovieDetails, fetchMoviesByGenre };
+export { fetchMovieDetails, fetchMoviesByGenre, fetchWarMovies, fetchCrimeMovies };

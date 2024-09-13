@@ -1,5 +1,5 @@
 import { fetchGenres } from './genres.js';
-import { fetchMoviesByGenre, fetchMovieDetails } from './movieDetails.js';
+import { fetchMoviesByGenre, fetchMovieDetails, fetchCrimeMovies, fetchWarMovies } from './movieDetails.js';
 import { fetchMysteryMovies } from './mysteryMovies.js';
 
 // Ensure functions are defined
@@ -34,5 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch movie details, genres, and Mystery movies on page load
     fetchMovieDetails(); // Ensure this function is correctly imported
     fetchGenres();       // Ensure this function is correctly imported
-    fetchMysteryMovies(); // Ensure this function is correctly imported
+    fetchMysteryMovies();
+    fetchCrimeMovies();
+    fetchWarMovies();// Ensure this function is correctly imported
 });
