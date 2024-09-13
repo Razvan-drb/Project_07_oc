@@ -150,52 +150,110 @@ function fetchMoviesByGenre(genreId, container) {
             container.innerHTML = '<p>Error loading movies.</p>';
         });
 }
-function fetchCrimeMovies() {
-    fetch(moviesApiUrl + '?genre=crime&page_size=4')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Fetched Crime movies data:', data.results); // Log fetched data
-            if (data && data.results) {
-                crimeCategoryContainer.innerHTML = ''; // Clear existing content
-                data.results.forEach(movie => {
-                    const movieImage = document.createElement('img');
-                    movieImage.src = movie.image_url; // Ensure correct URL
-                    movieImage.alt = movie.title;
-                    console.log('Crime movie image URL:', movie.image_url); // Log image URL
-                    crimeCategoryContainer.appendChild(movieImage);
+async function fetchCrimeMovies() {
+    const crimeCategoryContainer = document.querySelector('.crime-images');
+    if (!crimeCategoryContainer) {
+        console.error('Crime category container not found.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${moviesApiUrl}?genre=crime&page_size=6`); // Ensure page_size is 6
+        const data = await response.json();
+
+        if (data && data.results) {
+            crimeCategoryContainer.innerHTML = ''; // Clear existing content
+            data.results.forEach(movie => {
+                // Create and append movie containers as done for Mystery movies
+                const movieContainer = document.createElement('div');
+                movieContainer.classList.add('movie-container');
+
+                const movieImage = document.createElement('img');
+                movieImage.src = movie.image_url;
+                movieImage.alt = movie.title;
+
+                const overlay = document.createElement('div');
+                overlay.classList.add('overlay');
+
+                const movieTitle = document.createElement('p');
+                movieTitle.classList.add('movie-title');
+                movieTitle.textContent = movie.title;
+
+                const detailsButton = document.createElement('button');
+                detailsButton.textContent = 'Details';
+                detailsButton.classList.add('details-button');
+                detailsButton.addEventListener('click', () => {
+                    fetchMovieDetail(movie.url);
                 });
-            } else {
-                crimeCategoryContainer.innerHTML = '<p>No Crime movies available.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching Crime movies:', error.message);
-            crimeCategoryContainer.innerHTML = '<p>Error loading Crime movies.</p>';
-        });
+
+                overlay.appendChild(movieTitle);
+                overlay.appendChild(detailsButton);
+
+                movieContainer.appendChild(movieImage);
+                movieContainer.appendChild(overlay);
+
+                crimeCategoryContainer.appendChild(movieContainer);
+            });
+        } else {
+            crimeCategoryContainer.innerHTML = '<p>No Crime movies available.</p>';
+        }
+    } catch (error) {
+        console.error('Error fetching Crime movies:', error.message);
+        crimeCategoryContainer.innerHTML = '<p>Error loading Crime movies.</p>';
+    }
 }
 
-function fetchWarMovies() {
-    fetch(moviesApiUrl + '?genre=war&page_size=8')
-        .then(response => response.json())
-        .then(data => {
-            console.log('Fetched War movies data:', data.results); // Log fetched data
-            if (data && data.results) {
-                warCategoryContainer.innerHTML = ''; // Clear existing content
-                data.results.forEach(movie => {
-                    const movieImage = document.createElement('img');
-                    movieImage.src = movie.image_url; // Ensure correct URL
-                    movieImage.alt = movie.title;
-                    console.log('War movie image URL:', movie.image_url); // Log image URL
-                    warCategoryContainer.appendChild(movieImage);
+async function fetchWarMovies() {
+    const warCategoryContainer = document.querySelector('.war-images');
+    if (!warCategoryContainer) {
+        console.error('War category container not found.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${moviesApiUrl}?genre=war&page_size=6`); // Ensure page_size is 6
+        const data = await response.json();
+
+        if (data && data.results) {
+            warCategoryContainer.innerHTML = ''; // Clear existing content
+            data.results.forEach(movie => {
+                // Create and append movie containers as done for Mystery movies
+                const movieContainer = document.createElement('div');
+                movieContainer.classList.add('movie-container');
+
+                const movieImage = document.createElement('img');
+                movieImage.src = movie.image_url;
+                movieImage.alt = movie.title;
+
+                const overlay = document.createElement('div');
+                overlay.classList.add('overlay');
+
+                const movieTitle = document.createElement('p');
+                movieTitle.classList.add('movie-title');
+                movieTitle.textContent = movie.title;
+
+                const detailsButton = document.createElement('button');
+                detailsButton.textContent = 'Details';
+                detailsButton.classList.add('details-button');
+                detailsButton.addEventListener('click', () => {
+                    fetchMovieDetail(movie.url);
                 });
-            } else {
-                warCategoryContainer.innerHTML = '<p>No War movies available.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching War movies:', error.message);
-            warCategoryContainer.innerHTML = '<p>Error loading War movies.</p>';
-        });
+
+                overlay.appendChild(movieTitle);
+                overlay.appendChild(detailsButton);
+
+                movieContainer.appendChild(movieImage);
+                movieContainer.appendChild(overlay);
+
+                warCategoryContainer.appendChild(movieContainer);
+            });
+        } else {
+            warCategoryContainer.innerHTML = '<p>No War movies available.</p>';
+        }
+    } catch (error) {
+        console.error('Error fetching War movies:', error.message);
+        warCategoryContainer.innerHTML = '<p>Error loading War movies.</p>';
+    }
 }
 
 

@@ -7,9 +7,19 @@ if (typeof fetchMovieDetails !== 'function') {
     console.error('fetchMovieDetails is not defined or imported correctly.');
 }
 
+if (typeof fetchCrimeMovies !== 'function') {
+    console.error('fetchCrimeMovies is not defined or imported correctly.');
+}
+
+if (typeof fetchWarMovies !== 'function') {
+    console.error('fetchWarMovies is not defined or imported correctly.');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const categorySelects = document.querySelectorAll('.other-category select');
-    const mysteryCategoryContainer = document.querySelector('.category .images');
+    const mysteryCategoryContainer = document.querySelector('.category .images'); // Make sure this matches the container
+    const crimeCategoryContainer = document.querySelector('.crime-images'); // Make sure this matches the container
+    const warCategoryContainer = document.querySelector('.war-images'); // Make sure this matches the container
 
     // Close popup functionality
     document.querySelector('.close-button').addEventListener('click', () => {
@@ -31,10 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Fetch movie details, genres, and Mystery movies on page load
+    // Fetch movie details, genres, and movies for each category on page load
     fetchMovieDetails(); // Ensure this function is correctly imported
     fetchGenres();       // Ensure this function is correctly imported
     fetchMysteryMovies();
     fetchCrimeMovies();
-    fetchWarMovies();// Ensure this function is correctly imported
+    fetchWarMovies();
 });
