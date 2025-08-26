@@ -1,4 +1,4 @@
-# Project_06_OC
+# Project_07_OC
 développer la partie front-end d’une application avec HTML, CSS et JavaScript et interagir avec une API REST
 Pour ouvrir la page web, double click sur index.html
 
